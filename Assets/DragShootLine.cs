@@ -1,49 +1,90 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
 public class DragShootLine : MonoBehaviour
 {
     [SerializeField]
     LineRenderer line;
     public Vector3 startPos, endPos;
+    Vector3 intialValue;
+    bool drag;
     private void Awake()
     {
-        line = GetComponent<LineRenderer>();
-        line.SetPosition(0,Vector3.zero);
-        line.SetPosition(1,Vector3.zero);
-        line.numCapVertices = 0;
+       // line = GetComponent<LineRenderer>();
+
+        
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+        line.SetPosition(0, Vector3.zero);
+        line.SetPosition(1, Vector3.zero);
+        line.numCapVertices = 0;
     }
-
+    //private void OnMouseDown()
+    //{
+    //    DragNShoot.Instance.rig.velocity = Vector3.zero;
+    //    line.numCapVertices = 90;
+    //    startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //    Vector3 newstartPos = new Vector3(this.transform.position.x, this.transform.position.y, 0);
+    //    line.SetPosition(1, newstartPos);
+    //    line.SetPosition(0, newstartPos);
+    //    drag = true;
+    //}
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0))
         {
             DragNShoot.Instance.rig.velocity = Vector3.zero;
             line.numCapVertices = 90;
             startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 newstartPos = new Vector3(startPos.x,startPos.y,0);
-            line.SetPosition(1, newstartPos);
+            Vector3 newPos = startPos;
+            Vector3 newstartPos = new Vector3(this.transform.position.x, this.transform.position.y, 0);
+            line.SetPosition(1, newPos);
             line.SetPosition(0, newstartPos);
+            drag = true;
         }
-        else if(Input.GetMouseButton(0))
+        if(drag)
         {
             DragNShoot.Instance.rig.velocity = Vector3.zero;
             endPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 newendPos = new Vector3(endPos.x,endPos.y,0);
             line.SetPosition(0,newendPos);
-        }else if(Input.GetMouseButtonUp(0))
+            line.SetPosition(1,new Vector3(this.transform.position.x, this.transform.position.y, 0));
+        }
+        if(Input.GetMouseButtonUp(0))
         {
+            drag = false;
+            intialValue = new Vector3(this.transform.position.x, this.transform.position.y, 0);
             line.SetPosition(0, Vector3.zero);
             line.SetPosition(1, Vector3.zero);
             line.numCapVertices = 0;
-            DragNShoot.Instance.Shoot(startPos,endPos);
+            DragNShoot.Instance.Shoot(endPos, intialValue);
         }
     }
+
+    //public void OnPointerDown(PointerEventData eventData)
+    //{
+    //    DragNShoot.Instance.rig.velocity = Vector3.zero;
+    //    line.numCapVertices = 90;
+    //    startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //    Vector3 newstartPos = new Vector3(this.transform.position.x, this.transform.position.y, 0);
+    //    line.SetPosition(1, newstartPos);
+    //    line.SetPosition(0, newstartPos);
+    //    drag = true;
+    //}
+    private void OnMouseUp()
+    {
+        
+    }
+    //public void OnPointerUp(PointerEventData eventData)
+    //{
+    //    drag = false;
+    //    line.SetPosition(0, Vector3.zero);
+    //    line.SetPosition(1, Vector3.zero);
+    //    line.numCapVertices = 0;
+    //    DragNShoot.Instance.Shoot(startPos, endPos);
+    //}
 }

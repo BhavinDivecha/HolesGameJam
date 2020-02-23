@@ -16,14 +16,14 @@ public class DragNShoot : MonoBehaviour
     public static DragNShoot Instance;
     private void Awake()
     {
-        Instance = null;
-        Instance = this;
-        rig = GetComponent<Rigidbody2D>();
+       
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+        Instance = null;
+        Instance = this;
+        rig = GetComponent<Rigidbody2D>();
     }
     public void Shoot(Vector3 sp,Vector3 ep)
     {
