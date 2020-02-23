@@ -27,11 +27,19 @@ public class DragNShoot : MonoBehaviour
     }
     public void Shoot(Vector3 sp,Vector3 ep)
     {
+        GameSounds.Instance.PlayJumpSound(2);
         startPos = sp;
         endPos = ep;
         force = new Vector2(Mathf.Clamp(startPos.x-endPos.x,minPower.x,maxPower.x),Mathf.Clamp(startPos.y-endPos.y,minPower.y,maxPower.y));
         rig.AddForce(force*power,ForceMode2D.Impulse);
     }
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if(collision.collider.tag=="Border")
+    //    {
+    //        GameSounds.Instance.PlayJumpSound(1);
+    //    }
+    //}
     // Update is called once per frame
     void Update()
     {

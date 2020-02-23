@@ -64,7 +64,11 @@ public class DragShootLine : MonoBehaviour
             DragNShoot.Instance.Shoot(endPos, intialValue);
         }
     }
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(enabled==true)
+       GameSounds.Instance.PlayJumpSound(1);
+    }
     //public void OnPointerDown(PointerEventData eventData)
     //{
     //    DragNShoot.Instance.rig.velocity = Vector3.zero;
